@@ -1,57 +1,66 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import VoteOption from "./VoteOption";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      greeting: ''
+      trebuchetVotes: 0,
+      givenVote: 'none'
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({name: event.target.value});
+  voteForTrebuchet() {
+    this.setState({
+      trebuchetVotes: this.state.trebuchetVotes + 1,
+      givenVote: 'trebuchet'
+    })
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    fetch(`/api/greeting?name=${encodeURIComponent(this.state.name)}`)
-      .then(response => response.json())
-      .then(state => this.setState(state));
+  voteForCatapult() {
+    if (this.state.givenVote === 'none') {
+      this.setState({
+        trebuchetVotes: this.state.trebuchetVotes + 1,
+        givenVote: 'catapult'
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.setState({trebuchetVotes: 5});
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="name">Enter your name: </label>
-            <input
-              id="name"
-              type="text"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            <button type="submit">Submit</button>
-          </form>
-          <p>{this.state.greeting}</p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+        <header className="question-header">
+          Which one of these is, in your opinion, the superior siege weapon?
         </header>
+        <section className="votes-section">
+          <VoteOption
+            name="Catapult"
+            imageSrc="/images/catapult.jpg"
+            votes={0}
+            onVote={() => this.voteForCatapult()}
+          />
+          <VoteOption
+            name="Trebuchet"
+            imageSrc="/images/trebuchet.jpg"
+            votes={this.state.trebuchetVotes}
+            onVote={() => this.voteForTrebuchet()}
+          />
+        </section>
+        <section className="after-vote">
+          <p style={{ visibility: this.state.givenVote === 'none' ? 'hidden' : ''}}>
+            Thank you for your vote!
+          </p>
+          <p className={`information${this.state.givenVote === 'catapult' ? ' error' : ''}`}>
+            {this.state.givenVote === 'catapult' && "Error: We couldn't count your vote because you choose the wrong answer. Sorry."}
+            {this.state.givenVote === 'trebuchet' && 'Fun fact: Did you know that trebuchet can launch a 90kg projectile over 300m?'}
+          </p>
+        </section>
+        <section className='ad-section' />
       </div>
     );
   }
