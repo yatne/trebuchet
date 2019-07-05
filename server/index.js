@@ -1,15 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const pino = require('express-pino-logger')();
+const storage = require('node-persist');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(pino);
+storage.init();
 
-app.get('/api/greeting', (req, res) => {
-	const name = req.query.name || 'World';
+app.get('/votes', async (req, res) => {
+	const votes = await storage.getItem('votes');
 	res.setHeader('Content-Type', 'application/json');
-	res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
+	res.send(JSON.stringify({votes}));
+});
+
+app.get('/vote', async (req, res) => {
+	let votes = await storage.getItem('votes');
+	if (votes === {}) {
+		votes = 0;
+	}
+	await storage.setItem('votes', votes + 1);
+	res.send('OK');
 });
 
 app.listen(3001, () =>
