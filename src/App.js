@@ -11,11 +11,22 @@ class App extends React.Component {
     };
   }
 
-  voteForTrebuchet() {
-    this.setState({
-      trebuchetVotes: this.state.trebuchetVotes + 1,
-      givenVote: 'trebuchet'
+  getTrebuchetVotes() {
+    return fetch('/votes')
+      .then((res) => {
+        return res.json().then((votes) => {
+          return votes.votes;
+        });
     })
+  }
+
+  voteForTrebuchet() {
+    fetch('/vote').then(() =>
+      this.setState({
+        trebuchetVotes: this.state.trebuchetVotes + 1,
+        givenVote: 'trebuchet'
+      })
+    );
   }
 
   voteForCatapult() {
@@ -28,7 +39,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({trebuchetVotes: 5});
+    this.getTrebuchetVotes()
+      .then(votes => {
+        this.setState({trebuchetVotes: votes});
+      });
   }
 
   render() {
