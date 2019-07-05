@@ -51,7 +51,7 @@ class App extends React.Component {
             onVote={() => this.voteForTrebuchet()}
           />
         </section>
-        <section className="after-vote">
+        <section className="after-vote-section">
           <p style={{ visibility: this.state.givenVote === 'none' ? 'hidden' : ''}}>
             Thank you for your vote!
           </p>

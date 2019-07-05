@@ -9,22 +9,31 @@
 }
 
 .question-header {
-  flex: 1 1 auto;
+  flex: .5 1 auto;
   font-size: 2rem;
   margin-top: 2rem;
 }
 
 .votes-section {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
+.after-vote-section {
+  flex: 1 1 auto;
+  font-size: 1.2rem;
+}
+
+.ad-section {
+  flex: 0 0;
+}
+
 .vote-option {
   background: white;
   margin: 20px;
-  padding: 6px;
+  padding: 6px 6px 20px 6px;
   max-width: 50%;
   border: 1px solid grey
 }
@@ -40,20 +49,11 @@
 }
 
 .votes {
-  fornsize: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .votes span {
   color: red;
-}
-
-.vote-button {
-
-}
-
-.after-vote {
-  flex: 1 1 auto;
-  font-size: 1.2rem;
 }
 
 .information {
@@ -63,4 +63,25 @@
 .error {
   font-size: 0.9rem;
   color: red;
+}
+
+.button8 {
+  display: inline-block;
+  padding: 0.2em 1.45em;
+  margin:0.1em;
+  border:0.15em solid #CCCCCC;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Segoe UI','Roboto',sans-serif;
+  font-weight:400;
+  color:#000000;
+  background-color: #FEFEFE;
+  text-align:center;
+  position:relative;
+}
+a.button8:hover{
+  border-color:#7a7a7a;
+}
+a.button8:active{
+  background-color:#999999;
 }

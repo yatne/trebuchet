@@ -13,7 +13,7 @@ function VoteOption(props) {
 			<img alt={name} src={imageSrc} className='vote-image' onClick={() => onVote()}/>
 			<p className="vote-name">{name}</p>
 			<p className='votes'>votes: <span>{votes}</span> </p>
-			<button className='vote-button' onClick={() => onVote()}>vote</button>
+			<a className='button8' onClick={() => onVote()}>vote</a>
 		</div>
 	)
 }
