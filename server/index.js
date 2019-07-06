@@ -8,6 +8,9 @@ storage.init();
 
 app.get('/votes', async (req, res) => {
 	const votes = await storage.getItem('votes');
+	if (!votes) {
+		await storage.setItem('votes', 0);
+	}
 	res.setHeader('Content-Type', 'application/json');
 	res.send(JSON.stringify({votes}));
 });
