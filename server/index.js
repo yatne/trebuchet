@@ -1,27 +1,33 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const storage = require('node-persist');
 const path = require("path");
+const admin = require('firebase-admin');
+
+admin.initializeApp({
+	credential: admin.credential.applicationDefault()
+});
+
+const db = admin.firestore();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-storage.init();
 
 app.get('/votes', async (req, res) => {
-	const votes = await storage.getItem('votes');
-	if (!votes) {
-		await storage.setItem('votes', 0);
-	}
-	res.setHeader('Content-Type', 'application/json');
-	res.send(JSON.stringify({votes}));
+	await db.collection('counter').doc('votes').get()
+		.then((votes) => {
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(votes.data()));
+		});
 });
 
 app.get('/vote', async (req, res) => {
-	let votes = await storage.getItem('votes');
-	if (votes === {}) {
-		votes = 0;
-	}
-	await storage.setItem('votes', votes + 1);
+	const voteCount = await db.collection('counter').doc('votes').get()
+		.then((votes) => {
+			return votes.data().votes;
+		});
+	await db.collection('counter').doc('votes').set({
+		votes: voteCount + 1
+	});
 	res.send('OK');
 });
 

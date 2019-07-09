@@ -6,7 +6,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      trebuchetVotes: 0,
+      trebuchetVotes: '',
       givenVote: window.localStorage.getItem('voted') ? 'trebuchet' : 'none',
     };
   }
@@ -28,17 +28,18 @@ class App extends React.Component {
           givenVote: 'trebuchet'
         })
       );
+    } else {
+      this.setState({
+        givenVote: 'trebuchet'
+      })
     }
     window.localStorage.setItem('voted', "true");
   }
 
   voteForCatapult() {
-    if (this.state.givenVote === 'none') {
-      this.setState({
-        trebuchetVotes: this.state.trebuchetVotes + 1,
-        givenVote: 'catapult'
-      })
-    }
+    this.setState({
+      givenVote: 'catapult'
+    })
   }
 
   componentDidMount() {
